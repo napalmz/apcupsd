@@ -46,6 +46,7 @@ services:
       - PUID=1000
       - PGID=1000
       - TZ=Europe/Rome
+      - HEALT_LIMIT=60 # DEFAULT 120sec
     devices:
       - /dev/bus/usb/001/003 # SETUP YOUR USB DEVICE CORRECTLY
     restart: always
