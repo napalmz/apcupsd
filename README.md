@@ -16,16 +16,51 @@ Other apcupsd images i've seen are for exporting monitoring data to grafana or p
 
 Very little configuration is currently required for this image to work, though you may be required to tweak the USB device that is passed through to your container by docker.
 
-<code>
-docker run -it —privileged \<br>
-  --name=apcupsd \<br>
-  -e TZ=Europe/London \<br>
-  --device=/dev/usb/<b>hiddev1</b> \<br>
-  --restart unless-stopped \<br>
-  -p=3551:3551 \<br>
-  -v /var/run/dbus/system_bus_socket:/var/run/dbus/system_bus_socket \<br>
-  gregewing/apcupsd:latest
-</code>
+<details><summary>DOCKER RUN</summary>
+<p>
+
+```
+docker run -it —privileged \
+  --name=apcupsd \
+  -e TZ=Europe/London \
+  --device=/dev/usb/<b>hiddev1</b> \
+  --restart unless-stopped \
+  -p=3551:3551 \
+  -v /var/run/dbus/system_bus_socket:/var/run/dbus/system_bus_socket \
+  napalmzrpi/apcupsd:latest
+````
+
+</p>
+</details>
+
+<details><summary>DOCKER COMPOSE</summary>
+<p>
+
+```
+version: '3.3'
+services:
+  apcupsd:
+    image: 'napalmzrpi/apcupsd:latest'
+    container_name: apcupsd
+    environment:
+      - PUID=1000
+      - PGID=1000
+      - TZ=Europe/Rome
+    devices:
+      - /dev/bus/usb/001/003 # SETUP YOUR USB DEVICE CORRECTLY
+    restart: always
+    ports:
+      - '3551:3551'
+    volumes:  
+      - /path/to/data/apcupsd/apcupsd.conf:/etc/apcupsd/apcupsd.conf
+      - /path/to/data/apcupsd/hosts.conf:/etc/apcupsd/hosts.conf
+      - /path/to/data/apcupsd/multimon.conf:/etc/apcupsd/multimon.conf
+      - /path/to/data/apcupsd/apcupsd.events:/var/log/apcupsd.events
+````
+
+</p>
+</details>
+
 <br>
 
 You will likely want to customise <code>/etc/apcupsd/apcupsd.conf</code> for each of the hosts that you run this container on, so it will need to be bind mounded for persistence purpoes.  I recommend setting the threshold for shutting down hosts not directly connected to the UPS a little higher than the host connected to the UPS, so that the remote hosts are able to shut down before the UPS Connected host is no longer available to provide signalling.
