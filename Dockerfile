@@ -1,7 +1,8 @@
 FROM ubuntu:latest
-MAINTAINER NapalmZ (https://github.com/napalmz)
+LABEL maintainer="NapalmZ (https://github.com/napalmz)"
 ENV LANG=C.UTF-8 DEBIAN_FRONTEND=noninteractive
 ENV TZ=Europe/Rome
+ENV HEALT_LIMIT=120
 
 COPY scripts /usr/local/bin
 
