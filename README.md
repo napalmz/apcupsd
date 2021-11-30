@@ -14,7 +14,7 @@ Other apcupsd images i've seen are for exporting monitoring data to grafana or p
 
 <b>Configuration :</b>
 
-Very little configuration is currently required for this image to work, though you may be required to tweak the USB device that is passed through to your container by docker.
+Very little configuration is currently required for this image to work, though you may be required to tweak the USB device that is passed through to your container by docker. Pay attention to the HEALTHCHECK interval (HEALTH_LIMIT environment variable) which must be consistent with the APCUPSD reading interval (configured in the apcupsd.conf file).
 
 <details><summary>DOCKER RUN</summary>
 <p>
