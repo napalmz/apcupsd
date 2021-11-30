@@ -21,6 +21,6 @@ RUN echo Starting. \
 # && mv /etc/apt/sources.list.default /etc/apt/sources.list \
  && echo Finished.
 
-HEALTHCHECK --interval=1m --timeout=3s --start-period=30s --retries=3 CMD healthcheck.sh $$HEALT_LIMIT
+HEALTHCHECK --interval=1m --timeout=3s --start-period=10s --retries=3 CMD ["sh", "-c", "healthcheck.sh $HEALT_LIMIT"]
 
 CMD ["/sbin/apcupsd", "-b"]
